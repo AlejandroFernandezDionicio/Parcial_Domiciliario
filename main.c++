@@ -33,18 +33,18 @@ void setup()
   printDigit(0);
   Serial.begin(9600);  
 }
-void loop()
+void loop() //El loop se encargara de preguntar varias cosas
 {
   temperatura = map(analogRead(TMP),0,1023,-5,450);
   int interruptor = digitalRead(Switch);
-  if (interruptor == 1)
+  if (interruptor == 1) //Primero si el SlideSwitch se encuentra en valor 1, Si es asi el contador aumentara y este mismo se imprimira por pantalla por las funciones
   {
     countDigit += 1;
     Serial.println(countDigit);
-    printCount(countDigit);
+    printCount(countDigit); 
     printDigit(countDigit);
   }
-  if (interruptor == 0)
+  if (interruptor == 0) // Segundo si el SlideSwitch se encuentra en valor 0, Si es asi el contador aumentara en numeros primos y la misma imprime por pantalla por las funciones
   {
    	countPrimos += 1;
     delay(500);
@@ -54,16 +54,16 @@ void loop()
       printCount(countPrimos);
     }
   }
-  if (temperatura > 60)
+  if (temperatura > 60) // Tercero si la temperatura del TMP36 es mayor a 60
   {
-    digitalWrite(12, LOW);
+    digitalWrite(12, LOW); // El motor Se apaga si es asi
   }
-  else
+  else 
   {
-    digitalWrite(12, HIGH);
+    digitalWrite(12, HIGH); // El motor se prende si es asi
   }
 }
-void printDigit(int digit)
+void printDigit(int digit) //Esta funcion tiene como parametro el digito que se imprimira por pantalla
 {
   digitalWrite(A, LOW);
   digitalWrite(B, LOW);
@@ -162,7 +162,7 @@ void printDigit(int digit)
     
   }
 }
-void prendeDigito(int digito)
+void prendeDigito(int digito) //Esta funcion se encarga de separar los numeros por cada display y dandoles el tiempo de prenderse y apagarse
 {
   	if (digito == UNIDAD)
     {
@@ -183,7 +183,7 @@ void prendeDigito(int digito)
     	delay(TIMEDISPLAYON);
   	}
 }
-void printCount(int count) 
+void printCount(int count) //Esta funcion recibre como parametro el contador y se encargara de ir sabiendo que numero es es decir del 1 al 99
 {
   prendeDigito(APAGADOS); 
   delay(TIMEDISPLAYON);
@@ -194,7 +194,7 @@ void printCount(int count)
   printDigit(count - 10*((int)count/10));
   prendeDigito(UNIDAD);
 }
-bool num_primos(int num)
+bool num_primos(int num)// funcion que recibe como parametro el numero que se calculara para ver si es primo o no returna true en caso de si o false en caso de no
 {
   if (num <= 1) {
     return false;
