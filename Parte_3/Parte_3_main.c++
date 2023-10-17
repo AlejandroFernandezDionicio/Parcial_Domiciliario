@@ -19,8 +19,6 @@ int countPrimos = 2;
 int temperatura;
 int lectura;
 int intermitente = 0;
-unsigned long tiempo;
-unsigned long tiempo2 = 0;
 void setup()
 {
   pinMode(Switch, INPUT);
@@ -40,51 +38,42 @@ void setup()
 }
 void loop()
 {
-  tiempo = millis();
-  //Serial.println(tiempo);
-  if (tiempo-tiempo2>=2000)
-  {
-    tiempo2 = tiempo;
-    //Serial.println(tiempo);
-  }
-  
   lectura = analogRead(fotodiodo);
-  //Serial.println(lectura);
   temperatura = map(analogRead(TMP),0,1023,-5,450);
   int interruptor = digitalRead(Switch);
-  if (lectura == 1)
+  if (lectura == 1)// Preunta si el fotodiodo esta encendido
   {
-    if (interruptor == 1)
+    if (interruptor == 1)// Pregunta si el switch esta en 1
     {
       countDigit += 1;
       Serial.println(countDigit);
       printCount(countDigit);
-      printDigit(countDigit);
+      printDigit(countDigit);// Si es asi prende los leds y muestra el contador
     }
   }
-  if (lectura == 0)
+  if (lectura == 0)// Pregunta si el fotodiodo esta apagado
   {
-    if (interruptor == 0)
+    if (interruptor == 0)// Pregunta si el switch esta en 0
     {
       countPrimos += 1;
       delay(500);
       bool primos = num_primos(countPrimos);
       if (primos == true)
       {
-        printCount(countPrimos);
+        printCount(countPrimos);// Enciende los leds y muestra los numeros primos
       }
     }
   }
-  if (temperatura > 60)
+  if (temperatura > 60) // Pregunta si el sensor tiene una temperatura mayor a 60
   {
-    digitalWrite(12, LOW);
+    digitalWrite(12, LOW); // Si es asi se apaga el motor
   }
   else
   {
-    digitalWrite(12, HIGH);
+    digitalWrite(12, HIGH);// Caso contrario se prende el motor
   }
 }
-void printDigit(int digit)
+void printDigit(int digit) // Funcion encargada de encender el display con la forma del numero que recibe como parametr
 {
   digitalWrite(A, LOW);
   digitalWrite(B, LOW);
@@ -183,7 +172,7 @@ void printDigit(int digit)
     
   }
 }
-void prendeDigito(int digito)
+void prendeDigito(int digito)// //Esta funcion se encarga de separar los numeros por cada display y dandoles el tiempo de prenderse y apagarse
 {
   	if (digito == UNIDAD)
     {
@@ -206,7 +195,7 @@ void prendeDigito(int digito)
     	delay(TIMEDISPLAYON);
   	}
 }
-void printCount(int count) 
+void printCount(int count) //Esta funcion recibre como parametro el contador y se encargara de ir sabiendo que numero es es decir del 1 al 99
 {
   prendeDigito(APAGADOS); 
   delay(TIMEDISPLAYON);
@@ -217,7 +206,7 @@ void printCount(int count)
   printDigit(count - 10*((int)count/10));
   prendeDigito(UNIDAD);
 }
-bool num_primos(int num)
+bool num_primos(int num) 
 {
   if (num <= 1) {
     return false;
