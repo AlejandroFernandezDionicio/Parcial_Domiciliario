@@ -19,6 +19,9 @@ int countPrimos = 2;
 int temperatura;
 int lectura;
 int intermitente = 0;
+int tiempo1 = 0;
+int tiempo2 = 0;
+int tiempoSegundos = 0;
 void setup()
 {
   pinMode(Switch, INPUT);
@@ -38,6 +41,13 @@ void setup()
 }
 void loop()
 {
+  tiempo2 = millis();
+  if (tiempo2 > (tiempo1+1000))
+  {
+    tiempo1 = millis();
+    countDigit += 1;
+    countPrimos += 1;
+  }
   lectura = analogRead(fotodiodo);
   temperatura = map(analogRead(TMP),0,1023,-5,450);
   int interruptor = digitalRead(Switch);
@@ -45,7 +55,6 @@ void loop()
   {
     if (interruptor == 1)// Pregunta si el switch esta en 1
     {
-      countDigit += 1;
       Serial.println(countDigit);
       printCount(countDigit);
       printDigit(countDigit);// Si es asi prende los leds y muestra el contador
@@ -55,8 +64,6 @@ void loop()
   {
     if (interruptor == 0)// Pregunta si el switch esta en 0
     {
-      countPrimos += 1;
-      delay(500);
       bool primos = num_primos(countPrimos);
       if (primos == true)
       {
