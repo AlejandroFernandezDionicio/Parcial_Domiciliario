@@ -1,4 +1,3 @@
-# Ejemplo Documentación 
 ![Tinkercad](./imagenes/imagenprincipal.jpg)
 
 
